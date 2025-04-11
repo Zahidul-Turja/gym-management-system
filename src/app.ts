@@ -1,6 +1,10 @@
 import express, { Express } from "express";
+
 import authRoutes from "./modules/auth/auth.routes";
 import userRoutes from "./modules/user/user.routes";
+import scheduleRoutes from "./modules/schedule/schedule.routes";
+import bookingsRoutes from "./modules/booking/booking.routes";
+
 import cors from "cors";
 import dotenv from "dotenv";
 
@@ -21,10 +25,10 @@ app.use("/api/auth", authRoutes);
 // User Routes
 app.use("/api/users", userRoutes);
 
-// Trainer Routes
-app.use("/api/trainers");
+// Schedule Routes
+app.use("/api/schedules", scheduleRoutes);
 
-// Admin Routes
-// app.use("/api/admins");
+// Booking Routes
+app.use("/api/bookings", bookingsRoutes);
 
 export default app;
