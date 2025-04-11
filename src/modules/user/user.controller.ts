@@ -76,3 +76,60 @@ export const getAllTrainers = async (
     res.status(500).json({ message: "Server error", error: err });
   }
 };
+
+export const getAllTrainees = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const trainees = await prisma.user.findMany({
+      where: { role: "Trainee" },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.status(200).json(trainees);
+  } catch (err) {
+    console.error("Error fetching trainees:", err);
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
+
+export const updateUserProfile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const user = (req as any).user;
+    const { name, email } = req.body;
+
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: name || user.name,
+        email: email || user.email,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.error("Error updating profile:", err);
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
