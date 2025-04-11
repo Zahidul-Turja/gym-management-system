@@ -15,7 +15,7 @@ export const createSchedule = async (
 
     const dateObj = new Date(date);
 
-    // Count existing classes on that date
+    // Limit check
     const existingSchedules = await prisma.classSchedule.findMany({
       where: {
         date: {
@@ -29,6 +29,7 @@ export const createSchedule = async (
       return;
     }
 
+    // Verify trainer
     const trainer = await prisma.user.findUnique({ where: { id: trainerId } });
 
     if (!trainer || trainer.role !== "Trainer") {
@@ -36,6 +37,7 @@ export const createSchedule = async (
       return;
     }
 
+    // Build time
     const [hour, minute] = startTime.split(":").map(Number);
     const startDateTime = new Date(dateObj);
     startDateTime.setHours(hour, minute, 0, 0);
@@ -49,6 +51,13 @@ export const createSchedule = async (
         startTime: startDateTime,
         endTime: endDateTime,
         trainerId,
+      },
+    });
+
+    await prisma.trainerAssignment.create({
+      data: {
+        trainerId,
+        classScheduleId: schedule.id,
       },
     });
 
