@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  conductingClasses  ClassSchedule[]     @relation("TrainerClasses")
+  bookings           Booking[]           @relation("TraineeBookings")
+  trainerAssignments TrainerAssignment[] @relation("TrainerAssignments")
+}
+
+enum Role {
+  Admin
+  Trainer
+  Trainee
+}
+
+model ClassSchedule {
+  id                 String              @id @default(auto()) @map("_id") @db.ObjectId
+  date               DateTime
+  startTime          DateTime
+  endTime            DateTime
+  maxTrainees        Int                 @default(10)
+  trainerId          String              @db.ObjectId
+  trainer            User                @relation("TrainerClasses", fields: [trainerId], references: [id])
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  bookings           Booking[]           @relation("ScheduleBookings")
+  trainerAssignments TrainerAssignment[]
+}
+
+model Booking {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  traineeId       String   @db.ObjectId
+  classScheduleId String   @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  trainee       User          @relation("TraineeBookings", fields: [traineeId], references: [id])
+  classSchedule ClassSchedule @relation("ScheduleBookings", fields: [classScheduleId], references: [id])
+
+  @@unique([traineeId, classScheduleId])
+}
+
+model TrainerAssignment {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  trainerId       String   @db.ObjectId
+  classScheduleId String   @db.ObjectId
+  assignedAt      DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  trainer       User          @relation("TrainerAssignments", fields: [trainerId], references: [id])
+  classSchedule ClassSchedule @relation(fields: [classScheduleId], references: [id])
+}
