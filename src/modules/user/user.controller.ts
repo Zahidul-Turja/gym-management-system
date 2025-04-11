@@ -53,3 +53,26 @@ export const createTrainer = async (
     res.status(500).json({ message: "Something went wrong", error: err });
   }
 };
+
+export const getAllTrainers = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const trainers = await prisma.user.findMany({
+      where: { role: "Trainer" },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.status(200).json(trainers);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};

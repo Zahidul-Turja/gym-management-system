@@ -8,6 +8,10 @@
 
 3. Class Scheduling APIs
    -POST /api/schedules
+   -GET /api/schedules
+   -GET /api/schedules/:id
+   -PUT /api/schedules/:id
+   -DELETE /api/schedules/:id
 
 4. Booking Management APIs
    -POST /api/bookings
