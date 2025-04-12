@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import prisma from "../config/prisma";
 import jwt, { Secret } from "jsonwebtoken";
+import { error } from "console";
 
 const JWT_SECRET: Secret = process.env.JWT_SECRET as Secret;
 
@@ -21,7 +22,11 @@ export const protect = async (
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      res.status(401).json({ message: "Not authorized, no token" });
+      res.status(401).json({
+        success: false,
+        message: "Not authorized, no token",
+        errorDetails: "Token not provided",
+      });
       return;
     }
 
@@ -31,7 +36,15 @@ export const protect = async (
     const user = await prisma.user.findUnique({ where: { id: decoded.id } });
 
     if (!user) {
-      res.status(401).json({ message: "Not authorized, user not found" });
+      res.status(401).json({
+        success: false,
+        statusCode: 404,
+        message: "user not found",
+        errorDetails: {
+          field: "user",
+          message: "User not found found with the provided token",
+        },
+      });
       return;
     }
 
@@ -39,6 +52,10 @@ export const protect = async (
 
     return next();
   } catch (error) {
-    res.status(401).json({ message: "Not authorized, token failed" });
+    res.status(401).json({
+      success: false,
+      message: "unauthorized access!",
+      errorDetails: "You must be logged in to access this resource",
+    });
   }
 };

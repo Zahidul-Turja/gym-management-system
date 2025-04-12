@@ -23,13 +23,13 @@ This document outlines the API endpoints for the Gym Class Scheduling and Member
 
 ## Base URL
 
-[text](http://localhost:5000/api)
+[http://localhost:5000/api](http://localhost:5000/api)
 
 ## 1. Authentication APIs
 
 ### POST /auth/signup
 
-**Description**: Register a new user (Admin, Trainer, or Trainee).
+**Description**: Register a new user (Trainee).
 
 **Request Body**:
 

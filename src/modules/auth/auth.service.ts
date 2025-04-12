@@ -1,6 +1,7 @@
 import prisma from "../../config/prisma";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../../utils/jwt";
+import { error } from "console";
 
 interface AuthInput {
   name?: string;
@@ -14,6 +15,11 @@ export const signupService = async ({ name, email, password }: AuthInput) => {
     return {
       success: false,
       message: "User already exists",
+      statusCode: 403,
+      errorDetails: {
+        field: "email",
+        message: "User already exists with this email.",
+      },
     };
   }
 
@@ -28,10 +34,23 @@ export const signupService = async ({ name, email, password }: AuthInput) => {
   });
 
   const token = generateToken(user.id, user.role);
-  return {
-    token,
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
+
+  const res = {
+    success: true,
+    statusCode: 201,
+    message: "User created successfully",
+    data: {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    },
   };
+
+  return res;
 };
 
 export const loginService = async ({ email, password }: AuthInput) => {
@@ -40,6 +59,11 @@ export const loginService = async ({ email, password }: AuthInput) => {
     return {
       success: false,
       message: "Invalid credentials",
+      statusCode: 404,
+      errorDetails: {
+        field: "email",
+        message: "User not found",
+      },
     };
   }
 
@@ -48,12 +72,28 @@ export const loginService = async ({ email, password }: AuthInput) => {
     return {
       success: false,
       message: "Invalid credentials",
+      statusCode: 401,
+      errorDetails: {
+        message: "Invalid credentials, email or password is incorrect",
+      },
     };
   }
 
   const token = generateToken(user.id, user.role);
-  return {
-    token,
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
+  const res = {
+    success: true,
+    statusCode: 200,
+    message: "Login successful",
+    data: {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    },
   };
+
+  return res;
 };

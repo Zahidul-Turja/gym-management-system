@@ -1,16 +1,27 @@
 import { Request, Response } from "express";
 import prisma from "../../config/prisma";
 import bcrypt from "bcryptjs";
+import { error } from "console";
+import { stat } from "fs";
 
 export const getCurrentUser = async (req: Request, res: Response) => {
   const user = (req as any).user;
-  res.status(200).json({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    createdAt: user.createdAt,
-  });
+
+  const response = {
+    success: true,
+    statusCode: 200,
+    message: "User fetched successfully",
+    data: {
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
+    },
+  };
+  res.status(200).json(response);
 };
 
 export const createTrainer = async (
@@ -20,15 +31,45 @@ export const createTrainer = async (
   try {
     const { name, email, password } = req.body;
 
+    // Validate input fields
     if (!name || !email || !password) {
-      res.status(400).json({ message: "All fields are required" });
+      let message;
+      let field;
+
+      if (!name) {
+        message = "name is required";
+        field = "name";
+      } else if (!email) {
+        message = "email is required";
+        field = "email";
+      } else if (!password) {
+        message = "password is required";
+        field = "password";
+      }
+
+      res.status(400).json({
+        success: false,
+        message,
+        errorDetails: {
+          field,
+          message,
+        },
+      });
       return;
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
 
     if (existingUser) {
-      res.status(400).json({ message: "Email already exists" });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: "User already exists",
+        errorDetails: {
+          field: "email",
+          message: "user with this email already exists",
+        },
+      });
       return;
     }
 
@@ -44,10 +85,17 @@ export const createTrainer = async (
     });
 
     res.status(201).json({
-      id: trainer.id,
-      name: trainer.name,
-      email: trainer.email,
-      role: trainer.role,
+      success: true,
+      statusCode: 201,
+      message: "Trainer created successfully",
+      data: {
+        user: {
+          id: trainer.id,
+          name: trainer.name,
+          email: trainer.email,
+          role: trainer.role,
+        },
+      },
     });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong", error: err });
@@ -70,10 +118,22 @@ export const getAllTrainers = async (
       },
     });
 
-    res.status(200).json(trainers);
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Trainers fetched successfully",
+      data: {
+        users: trainers,
+      },
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error", error: err });
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Server error",
+      errorDetails: err,
+    });
   }
 };
 
@@ -93,10 +153,19 @@ export const getAllTrainees = async (
       },
     });
 
-    res.status(200).json(trainees);
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Trainees fetched successfully",
+      data: { users: trainees },
+    });
   } catch (err) {
-    console.error("Error fetching trainees:", err);
-    res.status(500).json({ message: "Server error", error: err });
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Server error",
+      errorDetails: err,
+    });
   }
 };
 
@@ -125,11 +194,19 @@ export const updateUserProfile = async (
     });
 
     res.status(200).json({
+      success: true,
+      statusCode: 200,
       message: "Profile updated successfully",
-      user: updatedUser,
+      data: {
+        user: updatedUser,
+      },
     });
   } catch (err) {
-    console.error("Error updating profile:", err);
-    res.status(500).json({ message: "Server error", error: err });
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Server error",
+      errorDetails: err,
+    });
   }
 };
