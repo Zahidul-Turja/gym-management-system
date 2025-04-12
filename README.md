@@ -636,7 +636,10 @@ npm run dev
 
 ```
 https://gym-management-system-api.vercel.app
+
 ```
+
+> NOTE: token should be set automatically after login and signup through the script.
 
 import postman_collection.json into Postman and run the tests.
 
