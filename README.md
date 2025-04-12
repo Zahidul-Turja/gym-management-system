@@ -621,11 +621,24 @@ npm run dev
 
 # Testing Instructions:
 
-## Download Postman Collection
+## Download and Import Postman Collection
 
-import postman_collection.json into Postman and run the tests.
+### 1. Download the Postman Collection
 
 [Download Postman Collection](./postman_collection.json)
+
+### 2. Import the Collection into Postman
+
+### 3. Run the Tests
+
+- Create a new Environment
+- Create new variables: live, token and set the value of live to
+
+```
+https://gym-management-system-api.vercel.app
+```
+
+import postman_collection.json into Postman and run the tests.
 
 ## Admin Credentials
 
