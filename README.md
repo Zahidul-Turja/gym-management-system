@@ -651,3 +651,70 @@ import postman_collection.json into Postman and run the tests.
   "password": "5chedu11ng"
 }
 ```
+
+## Project Structure:
+
+```bash
+Directory structure:
+└── aistushar-gym-management-system/
+    ├── README.md
+    ├── package.json
+    ├── postman_collection.json
+    ├── tsconfig.json
+    ├── vercel.json
+    ├── prisma/
+    │   └── schema.prisma
+    └── src/
+        ├── app.ts
+        ├── server.ts
+        ├── config/
+        │   ├── db.ts
+        │   └── prisma.ts
+        ├── generated/
+        │   └── prisma/
+        │       ├── client.d.ts
+        │       ├── client.js
+        │       ├── default.d.ts
+        │       ├── default.js
+        │       ├── edge.d.ts
+        │       ├── edge.js
+        │       ├── index-browser.js
+        │       ├── index.d.ts
+        │       ├── index.js
+        │       ├── package.json
+        │       ├── query_engine-windows.dll.node
+        │       ├── query_engine-windows.dll.node.tmp18292
+        │       ├── query_engine-windows.dll.node.tmp5408
+        │       ├── schema.prisma
+        │       ├── wasm.d.ts
+        │       ├── wasm.js
+        │       └── runtime/
+        │           ├── edge-esm.js
+        │           ├── edge.js
+        │           ├── index-browser.d.ts
+        │           ├── index-browser.js
+        │           ├── library.d.ts
+        │           ├── library.js
+        │           ├── react-native.js
+        │           └── wasm.js
+        ├── middleware/
+        │   ├── protect.ts
+        │   └── restrictTo.ts
+        ├── modules/
+        │   ├── auth/
+        │   │   ├── auth.controller.ts
+        │   │   ├── auth.routes.ts
+        │   │   └── auth.service.ts
+        │   ├── booking/
+        │   │   ├── booking.controller.ts
+        │   │   └── booking.routes.ts
+        │   ├── schedule/
+        │   │   ├── schedule.controller.ts
+        │   │   └── schedule.routes.ts
+        │   └── user/
+        │       ├── user.controller.ts
+        │       ├── user.routes.ts
+        │       └── user.service.ts
+        └── utils/
+            └── jwt.ts
+```
