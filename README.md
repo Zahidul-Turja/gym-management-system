@@ -625,7 +625,7 @@ npm run dev
 
 import postman_collection.json into Postman and run the tests.
 
-[Download Postman Collection](./postman_collection.json)
+<a href="./postman_collection.json" download>Download Postman Collection</a>
 
 ## Admin Credentials
 
