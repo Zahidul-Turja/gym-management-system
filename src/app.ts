@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(cors());
 dotenv.config();
 
-app.get("/", (_req, res) => {
-  res.send("Gym Management System API is running 🚀");
+app.get("/ping", (req, res) => {
+  res.send("Pong!");
 });
 
 // Mounted Routes
