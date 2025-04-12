@@ -1,11 +1,11 @@
 {
   "name": "gym-management-system",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
-    "dev": "nodemon src/server.ts"
+    "dev": "ts-node-dev src/server.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,18 +1,18 @@
+// src/server.ts
 import app from "./app";
 import { connectDB } from "./config/db";
+import { Request, Response } from "express";
+import { createServer } from "http";
 
-const port = process.env.PORT || 5000;
+// Create Vercel-compatible handler
+let serverInitialized = false;
 
-async function startServer() {
-  try {
+export default async function handler(req: Request, res: Response) {
+  if (!serverInitialized) {
     await connectDB();
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  } catch (error) {
-    console.error("Error starting server:", error);
-    process.exit(1);
+    serverInitialized = true;
   }
-}
 
-startServer();
+  // Delegate the request to Express
+  app(req, res);
+}
