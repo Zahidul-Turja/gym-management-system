@@ -1,18 +1,13 @@
-// src/server.ts
 import app from "./app";
 import { connectDB } from "./config/db";
-import { Request, Response } from "express";
-import { createServer } from "http";
 
-// Create Vercel-compatible handler
-let serverInitialized = false;
+let dbConnected = false;
 
-export default async function handler(req: Request, res: Response) {
-  if (!serverInitialized) {
+export default async function handler(req: any, res: any) {
+  if (!dbConnected) {
     await connectDB();
-    serverInitialized = true;
+    dbConnected = true;
   }
 
-  // Delegate the request to Express
   app(req, res);
 }
