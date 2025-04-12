@@ -23,7 +23,7 @@ This document outlines the API endpoints for the Gym Class Scheduling and Member
 
 ## Base URL
 
-[http://localhost:5000/api](http://localhost:5000/api)
+[https://gym-management-system-api.vercel.app/api](https://gym-management-system-api.vercel.app/api)
 
 ## 1. Authentication APIs
 
@@ -619,29 +619,19 @@ npm run dev
 
 [https://gym-management-system-api.vercel.app/](https://gym-management-system-api.vercel.app/)
 
-1. Authentication APIs
-   -POST /api/auth/signin
-   -POST /api/auth/login
+# Testing Instructions:
 
-2. User Management APIs
-   -POST /api/users/trainers
-   -GET /api/users/trainers
-   -GET /api/users/trainees
-   -GET /api/users/profile
-   -PUT /api/users/profile
+### Download Postman Collection
 
-3. Class Scheduling APIs
-   -POST /api/schedules
-   -GET /api/schedules
-   -GET /api/schedules/:id
-   -PUT /api/schedules/:id
-   -DELETE /api/schedules/:id
+import postman_collection.json into Postman and run the tests.
 
-4. Booking Management APIs
-   -POST /api/bookings
-   -GET /api/bookings
-   -DELETE /api/bookings/:id
+[Download Postman Collection](./postman_collection.json)
 
-```
+### Admin Credentials
 
+```json
+{
+  "email": "admin@gmail.com",
+  "password": "5chedu11ng"
+}
 ```
