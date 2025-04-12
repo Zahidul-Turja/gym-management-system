@@ -621,13 +621,13 @@ npm run dev
 
 # Testing Instructions:
 
-### Download Postman Collection
+## Download Postman Collection
 
 import postman_collection.json into Postman and run the tests.
 
 [Download Postman Collection](./postman_collection.json)
 
-### Admin Credentials
+## Admin Credentials
 
 ```json
 {
