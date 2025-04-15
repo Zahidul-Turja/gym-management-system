@@ -621,11 +621,27 @@ npm run dev
 
 # Testing Instructions:
 
-## Download Postman Collection
+## Download and Import Postman Collection
 
-import postman_collection.json into Postman and run the tests.
+### 1. Download the Postman Collection
 
 <a href="https://github.com/Zahidul-Turja/gym-management-system/blob/main/postman_collection.json" download>Download Postman Collection</a>
+
+### 2. Import the Collection into Postman
+
+### 3. Run the Tests
+
+- Create a new Environment
+- Create new variables: live, token and set the value of live to
+
+```
+https://gym-management-system-api.vercel.app
+
+```
+
+> NOTE: token should be set automatically after login and signup through the script.
+
+import postman_collection.json into Postman and run the tests.
 
 ## Admin Credentials
 
@@ -634,4 +650,71 @@ import postman_collection.json into Postman and run the tests.
   "email": "admin@gmail.com",
   "password": "5chedu11ng"
 }
+```
+
+## Project Structure:
+
+```bash
+Directory structure:
+└── aistushar-gym-management-system/
+    ├── README.md
+    ├── package.json
+    ├── postman_collection.json
+    ├── tsconfig.json
+    ├── vercel.json
+    ├── prisma/
+    │   └── schema.prisma
+    └── src/
+        ├── app.ts
+        ├── server.ts
+        ├── config/
+        │   ├── db.ts
+        │   └── prisma.ts
+        ├── generated/
+        │   └── prisma/
+        │       ├── client.d.ts
+        │       ├── client.js
+        │       ├── default.d.ts
+        │       ├── default.js
+        │       ├── edge.d.ts
+        │       ├── edge.js
+        │       ├── index-browser.js
+        │       ├── index.d.ts
+        │       ├── index.js
+        │       ├── package.json
+        │       ├── query_engine-windows.dll.node
+        │       ├── query_engine-windows.dll.node.tmp18292
+        │       ├── query_engine-windows.dll.node.tmp5408
+        │       ├── schema.prisma
+        │       ├── wasm.d.ts
+        │       ├── wasm.js
+        │       └── runtime/
+        │           ├── edge-esm.js
+        │           ├── edge.js
+        │           ├── index-browser.d.ts
+        │           ├── index-browser.js
+        │           ├── library.d.ts
+        │           ├── library.js
+        │           ├── react-native.js
+        │           └── wasm.js
+        ├── middleware/
+        │   ├── protect.ts
+        │   └── restrictTo.ts
+        ├── modules/
+        │   ├── auth/
+        │   │   ├── auth.controller.ts
+        │   │   ├── auth.routes.ts
+        │   │   └── auth.service.ts
+        │   ├── booking/
+        │   │   ├── booking.controller.ts
+        │   │   └── booking.routes.ts
+        │   ├── schedule/
+        │   │   ├── schedule.controller.ts
+        │   │   └── schedule.routes.ts
+        │   └── user/
+        │       ├── user.controller.ts
+        │       ├── user.routes.ts
+        │       └── user.service.ts
+        └── utils/
+            └── jwt.ts
 ```
